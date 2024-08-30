@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cheapest Flight Finder</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f0f2f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .container {
+      background-color: #ffffff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+    }
+
+    .container h1 {
+      color: #333;
+      margin-bottom: 20px;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      font-size: 14px;
+      margin-bottom: 5px;
+      color: #555;
+    }
+
+    select {
+      width: calc(100% - 20px);
+      padding: 10px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+      background-color: #fafafa;
+      transition: border-color 0.3s;
+    }
+
+    select:focus {
+      border-color: #007bff;
+      outline: none;
+    }
+
+    button {
+      padding: 12px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      border: none;
+      border-radius: 4px;
+      background-color: #007bff;
+      color: #ffffff;
+      transition: background-color 0.3s, transform 0.2s;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+      transform: scale(1.05);
+    }
+
+    #resultContainer {
+      margin-top: 20px;
+      font-size: 18px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        padding: 15px;
+      }
+
+      select {
+        width: 100%;
+      }
+
+      button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Cheapest Flight Finder</h1>
+    <div class="form-group">
+      <label for="start">Starting Point:</label>
+      <select id="start">
+        <option value="New York">New York</option>
+        <option value="London">London</option>
+        <option value="Paris">Paris</option>
+        <option value="Tokyo">Tokyo</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="end">Ending Point:</label>
+      <select id="end">
+        <option value="New York">New York</option>
+        <option value="London">London</option>
+        <option value="Paris">Paris</option>
+        <option value="Tokyo">Tokyo</option>
+      </select>
+    </div>
+    <button onclick="findCheapestFlight()">Find Cheapest Flight</button>
+    <div id="resultContainer"></div>
+  </div>
+  <script>
+    const flights = [
+      { start: "New York", end: "London", price: 500 },
+      { start: "New York", end: "Paris", price: 450 },
+      { start: "London", end: "Tokyo", price: 700 },
+      { start: "Paris", end: "Tokyo", price: 650 },
+      { start: "New York", end: "Tokyo", price: 800 },
+      { start: "London", end: "Paris", price: 300 },
+      { start: "Paris", end: "London", price: 320 },
+      { start: "Tokyo", end: "New York", price: 750 },
+    ];
+
+    function findCheapestFlight() {
+      const start = document.getElementById("start").value;
+      const end = document.getElementById("end").value;
+
+      const filteredFlights = flights.filter(
+        (flight) => flight.start === start && flight.end === end
+      );
+
+      if (filteredFlights.length > 0) {
+        const cheapestFlight = filteredFlights.reduce((prev, curr) =>
+          prev.price < curr.price ? prev : curr
+        );
+        displayResult(
+          `Cheapest flight from ${start} to ${end} costs $${cheapestFlight.price}.`
+        );
+      } else {
+        displayResult("No flights available for the selected route.");
+      }
+    }
+
+    function displayResult(message) {
+      document.getElementById("resultContainer").textContent = message;
+    }
+  </script>
+</body>
+</html>
